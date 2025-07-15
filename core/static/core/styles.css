@@ -1,0 +1,53 @@
+body {
+    background-color: #222529;
+    color: white;
+}
+
+nav {
+    background-color: #2e3d50;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: white;
+}
+
+div {
+    color: white;
+}
+
+#post_form_input {
+    width:100%;
+    height: 70px;
+    border-radius: 10px;
+}
+
+.borderd_div {
+    padding: 20px;
+    margin: 20px;
+    border-color: white;
+    border-style: solid;
+    border-radius: 10px;
+    color: white;
+}
+
+button, .btn{
+    background-color: white;
+    color: black;
+    font-weight: 600;
+}
+
+button.hover, .btn.hover {
+    background-color: blue;
+    color: white;
+}
+
+.like_btn {
+    background-color: #222529;
+    border-style: none;
+    font-size: large;
+    color: white;
+}
