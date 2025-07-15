@@ -9,6 +9,6 @@ urlpatterns = [
 
     path("", views.index, name="index"),
     path("spaced_review", views.spaced_review, name="spaced_review"),
-    path("deck_review", views.deck_review, name="deck_review" ),
+    path("deck_review/<int:deck_id>/", views.deck_review, name="deck_review" ),
     path("create_deck", views.create_deck, name="create_deck" ),
 ]

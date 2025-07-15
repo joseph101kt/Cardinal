@@ -32,6 +32,7 @@ div {
     border-style: solid;
     border-radius: 10px;
     color: white;
+    
 }
 
 button, .btn{
@@ -45,9 +46,4 @@ button.hover, .btn.hover {
     color: white;
 }
 
-.like_btn {
-    background-color: #222529;
-    border-style: none;
-    font-size: large;
-    color: white;
-}
+

@@ -2,13 +2,48 @@
 {% load static %}
 
 {% block body %}
-
-    {% if user.is_authenticated %}
-        
-    {% endif %}
-
-    <div class="borderd_div">
-
+  <div class="container">
+    <h2> MY Decks </h2>
+    <div class="row">
+        {% for deck in my_decks %}
+            <div class="col-md-4 mb-3">
+                <div class="borderd_div" style="width:350px; height:500px;
+                    background-color: rgb(53,41,58);
+                    border-radius: 16px;
+                    box-shadow: 0 8px 20px rgb(66, 19, 87);
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div class="card-body text-white">
+                    <h5 class="card-title">{{ deck.name }}</h5>
+                    <p class="card-text"> {{deck.description}}  </p>
+                    <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary">Review</a>
+                </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-white">You haven’t created any decks yet.</p>
+        {% endfor %}
     </div>
-
+    <h2>Public decks</h2>
+    <div class="row">
+        {% for deck in public_decks %}
+            <div class="col-md-4 mb-3">
+                <div class="borderd_div" style="width:350px; height:500px;
+                    background-color: rgb(53,41,58);
+                    border-radius: 16px;
+                    box-shadow: 0 8px 20px rgb(66, 19, 87);
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div class="card-body text-white">
+                    <h5 class="card-title">{{ deck.name }}</h5>
+                    <p class="card-text"> {{deck.description}}  </p>
+                    <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary">Review</a>
+                </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-white">no decks availablet.</p>
+        {% endfor %}
+    </div>
+  </div>
 {% endblock %}

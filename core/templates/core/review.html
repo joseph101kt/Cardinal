@@ -3,12 +3,32 @@
 
 {% block body %}
 
-    {% if user.is_authenticated %}
-        
+    {% if spaced_mode %}
+        <h2>Spaced Repition</h2>
+    {% else %}
+        <h2>{{deck.name}}</h2>
     {% endif %}
 
-    <div class="borderd_div">
-
-    </div>
-
+    {% for card in cards %}
+        <div class="col-md-4 mb-3">
+            <div class="borderd_div" style="width:350px; height:500px;
+                background-color: rgb(53,41,58);
+                border-radius: 16px;
+                box-shadow: 0 8px 20px rgb(66, 19, 87);
+                overflow: hidden;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div class="card-body text-white">
+                <h5 class="card-title">{{ card.question }}</h5>
+                {% for key, value in card.options.items %}
+                    <button class="btn btn-outline-light d-block my-2 option-btn" data-correct="{{ value }}">
+                        {{ key }}
+                    </button>
+                {% end for %}
+            </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-white">This deck is empty.</p>
+    {% endfor %}
+    
 {% endblock %}
