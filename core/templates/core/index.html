@@ -2,48 +2,41 @@
 {% load static %}
 
 {% block body %}
-  <div class="container">
-    <h2> MY Decks </h2>
+<div class="container my-4">
+    <h2 class="text-center mb-4">My Decks</h2>
     <div class="row">
         {% for deck in my_decks %}
-            <div class="col-md-4 mb-3">
-                <div class="borderd_div" style="width:350px; height:500px;
-                    background-color: rgb(53,41,58);
-                    border-radius: 16px;
-                    box-shadow: 0 8px 20px rgb(66, 19, 87);
-                    overflow: hidden;
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                <div class="card-body text-white">
-                    <h5 class="card-title">{{ deck.name }}</h5>
-                    <p class="card-text"> {{deck.description}}  </p>
-                    <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary">Review</a>
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex justify-content-center">
+            <div class="w-100 borderd_div" style="max-width: 360px;">
+                <div class="card-body text-white p-3 d-flex flex-column justify-content-between h-100">
+                <div>
+                <h5 class="card-title">{{ deck.name }}</h5>
+                <p class="card-text">{{ deck.description }}</p>
                 </div>
-                </div>
+                <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary mt-3 w-100">Review</a>
             </div>
+            </div>
+        </div>
         {% empty %}
-            <p class="text-white">You haven’t created any decks yet.</p>
+        <p class="text-white">You haven’t created any decks yet.</p>
         {% endfor %}
     </div>
-    <h2>Public decks</h2>
+
+    <h2 class="text-center mt-5 mb-4">Public Decks</h2>
     <div class="row">
         {% for deck in public_decks %}
-            <div class="col-md-4 mb-3">
-                <div class="borderd_div" style="width:350px; height:500px;
-                    background-color: rgb(53,41,58);
-                    border-radius: 16px;
-                    box-shadow: 0 8px 20px rgb(66, 19, 87);
-                    overflow: hidden;
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                <div class="card-body text-white">
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex justify-content-center">
+            <div class="w-100 borderd_div" style="max-width: 360px;">
+                <div class="card-body text-white p-3 d-flex flex-column justify-content-between h-100">
                     <h5 class="card-title">{{ deck.name }}</h5>
-                    <p class="card-text"> {{deck.description}}  </p>
-                    <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary">Review</a>
-                </div>
-                </div>
+                    <p class="card-text">{{ deck.description }}</p>
+                <a href="{% url 'deck_review' deck.id %}" class="btn btn-primary mt-3 w-100">Review</a>
             </div>
+            </div>
+        </div>
         {% empty %}
-            <p class="text-white">no decks availablet.</p>
+        <p class="text-white">No decks available.</p>
         {% endfor %}
     </div>
-  </div>
+</div>
 {% endblock %}

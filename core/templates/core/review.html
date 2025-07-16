@@ -2,33 +2,158 @@
 {% load static %}
 
 {% block body %}
-
+<div class="container text-center my-4">
     {% if spaced_mode %}
-        <h2>Spaced Repition</h2>
+        <h2 class="mb-4">Spaced Repetition</h2>
     {% else %}
-        <h2>{{deck.name}}</h2>
+        <h2 class="mb-4">{{ deck.name }}</h2>
     {% endif %}
 
-    {% for card in cards %}
-        <div class="col-md-4 mb-3">
-            <div class="borderd_div" style="width:350px; height:500px;
-                background-color: rgb(53,41,58);
-                border-radius: 16px;
-                box-shadow: 0 8px 20px rgb(66, 19, 87);
-                overflow: hidden;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;">
-            <div class="card-body text-white">
-                <h5 class="card-title">{{ card.question }}</h5>
-                {% for key, value in card.options.items %}
-                    <button class="btn btn-outline-light d-block my-2 option-btn" data-correct="{{ value }}">
-                        {{ key }}
-                    </button>
-                {% end for %}
+    {% if cards %}
+        {% with card=cards.object_list.0 %}
+            <div class="row justify-content-center">
+
+                <!-- CARD QUESTION -->
+                <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="w-100 borderd_div" style="max-width: 360px;">
+                        <div class="card-body text-white p-3 d-flex flex-column justify-content-between h-100">
+                            <h5 class="card-title">{{ card.card_data.question }}</h5>
+
+                            {% for key, value in card.card_data.options.items %}
+                                {% if value %}
+                                    {% if cards.has_next %}
+                                        <button 
+                                            class="btn d-block w-100 my-2 option-btn text-white" 
+                                            style="background-color: rgb(104, 19, 143);" 
+                                            onclick="goToNext(correct=true)">
+                                            {{ key }}
+                                        </button>
+                                    {% else %}
+                                        <button 
+                                            class="btn d-block w-100 my-2 option-btn text-white" 
+                                            style="background-color: rgb(104, 19, 143);" 
+                                            onclick="alert('The deck is complete')">
+                                            {{ key }}
+                                        </button>
+                                    {% endif %}
+                                {% else %}
+                                    <button 
+                                        id="wrong_btn"
+                                        class="btn d-block w-100 my-2 option-btn text-white" 
+                                        style="background-color: rgb(104, 19, 143);" 
+                                        onclick="showDescription()">
+                                        {{ key }}
+                                    </button>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD EXPLANATION -->
+                <div hidden id="desc" class=" justify-content-center mb-4" data-card-id="{{ card.id }}">
+                    <div class="w-100 borderd_div" style="max-width: 360px;">
+                        <div class="card-body text-white p-3 d-flex flex-column justify-content-between h-100">
+                            <h5 class="card-title">Explanation</h5>
+                            <p class="card-text">
+                                {{ card.card_data.description|default:"No explanation provided." }}
+                            </p>
+
+                            {% if cards.has_next %}
+                                <button 
+                                    class="btn btn-secondary w-100 mt-2" 
+                                    style="background-color: rgb(104, 19, 143);" 
+                                    onclick="goToNext(correct=false)">
+                                    Next
+                                </button>
+                            {% else %}
+                                <p>No more cards!</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
-    {% empty %}
+        {% endwith %}
+    {% else %}
         <p class="text-white">This deck is empty.</p>
-    {% endfor %}
-    
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        descriptionShown = false
+        function goToNext(correct = false) {
+            if (descriptionShown){
+                correct = false
+            }
+            console.log(`go to next is called and correct = ${correct}`)
+            const desc = document.getElementById("desc");
+            cardId = desc.dataset.cardId;
+            if (desc.hidden){
+                if (correct){
+                    submitCardResult(cardId, true)
+                }
+            }
+            else{
+                submitCardResult(cardId, false)
+            }
+            {% if cards.has_next %}
+                descriptionShown = false;
+                window.location.href = "?page={{ cards.next_page_number }}";
+
+            {% else %}
+                alert("You have completed the deck!");
+            {% endif %}
+            
+        }
+        function showDescription(){
+            descriptionShown = true
+            console.log("showDescription called");
+            const desc = document.getElementById("desc");
+            desc.hidden = false
+        }
+
+        function submitCardResult(cardId, wasCorrect) {
+            fetch("/api/review-card/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                body: JSON.stringify({
+                    card_id: cardId,
+                    was_correct: wasCorrect
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    console.log(" Card review updated!");
+                } else {
+                    console.error("Error:", data.error);
+                }
+            });
+        }
+
+
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+
+                    if (cookie.substring(0, name.length + 1) === name + "=") {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
 {% endblock %}

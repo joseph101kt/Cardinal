@@ -19,20 +19,33 @@ div {
     color: white;
 }
 
-#post_form_input {
-    width:100%;
-    height: 70px;
-    border-radius: 10px;
-}
 
 .borderd_div {
     padding: 20px;
     margin: 20px;
-    border-color: white;
-    border-style: solid;
-    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+
+
+background: linear-gradient(135deg, #322337, #1a1322);
+box-shadow:
+  0 4px 12px rgba(0, 0, 0, 0.4),
+  0 0 0 1px rgba(255, 255, 255, 0.05),
+  0 12px 24px rgba(84, 19, 112, 0.18);
+
+
+
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
     color: white;
-    
+}
+
+.borderd_div:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.16),
+        0 16px 32px rgba(104, 19, 143, 0.2);
 }
 
 button, .btn{
@@ -45,5 +58,3 @@ button.hover, .btn.hover {
     background-color: blue;
     color: white;
 }
-
-

@@ -15,16 +15,15 @@ class Deck(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="decks")
     name = models.CharField(max_length=128, default="No name provided.")
     description = models.CharField(max_length=128, default="No description provided.")
-    card_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)
+    card_count = models.PositiveIntegerField(default=0)
 
         
     def get_deck_data(self):
         return {
             "name": self.name,
             "description": self.description,
-            "card_count": self.card_count
         }
 
 class Card(models.Model):

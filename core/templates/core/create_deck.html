@@ -1,0 +1,51 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-4">
+<h2 class="mb-4 text-center">Upload Deck JSON File</h2>
+<h3>The structure of the json to be uploaded is as follows</h3>
+<pre style="background:#f8f8f8;padding:1em;border-radius:6px;overflow-x:auto;">
+{
+  "name": "Deck Title Here",
+  "description": "Short summary of what this deck covers.",
+  "is_public": true,
+  "cards": [
+    {
+      "card_data": {
+        "question": "Write your question here?",
+        "description": "Optional explanation or context.",
+        "options": {
+          "Option 1 text": true,
+          "Option 2 text": false,
+          "Option 3 text": false,
+          "Option 4 text": false
+        }
+      }
+    }
+  ]
+}
+</pre>
+
+<form method="POST" action="{% url 'create_deck' %}" enctype="multipart/form-data" class="p-3 border rounded shadow-sm bg-light">
+    {% csrf_token %}
+
+    <div class="form-group">
+    <label for="json_file"><strong>Upload JSON:</strong></label>
+    <input
+        type="file"
+        class="form-control-file"
+        name="json_file"
+        id="json_file"
+        accept=".json"
+        required
+    >
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3 w-100">
+    Submit
+    </button>
+</form>
+</div>
+{% endblock %}
+
