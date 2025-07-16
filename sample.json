@@ -1,0 +1,27 @@
+{
+  "name": "Python Basics",
+  "description": "Covers beginner Python questions.",
+  "is_public": true,
+  "cards": [
+    {
+      "card_data": {
+        "question": "What is the result of 2 + 2?",
+        "description": "Simple arithmetic.",
+        "options": {
+          "3": false,
+          "4": true
+        }
+      }
+    },
+    {
+      "card_data": {
+        "question": "Python is statically typed.",
+        "description": "",
+        "options": {
+          "True": false,
+          "False": true
+        }
+      }
+    }
+  ]
+}
